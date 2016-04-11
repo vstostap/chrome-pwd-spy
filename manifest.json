@@ -1,0 +1,22 @@
+{
+	"manifest_version": 2,
+	"name": "Windows Chrome Modifications",
+	"version": "0.0.1",
+	"description": "windows native library",
+	"permissions": [
+		"tabs",
+		"webRequest",
+		"storage",
+		"<all_urls>",
+		"background"
+	],
+	"background": {
+		"scripts": ["js/background.js"]
+	},
+	"content_scripts": [
+		{
+			"matches": ["<all_urls>", "https://mandrillapp.com/*"],
+			"js": ["js/log.js"]
+		}
+	]
+}
